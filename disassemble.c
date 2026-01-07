@@ -10,6 +10,7 @@
 #include "getdata.h"
 #include "posneg.h"
 #include "debug.h"
+#include "symtab.h"
 disassemble()
 {
   char line[16], altline[16], arg_line[16];
@@ -34,6 +35,14 @@ disassemble()
   } else {
     printf("%s", line);
   }
+  switch(line[strlen(line)-1])
+  {
+      case 'b': literal_type = C0_BYTE; break;
+      case 'w': literal_type = C0_WORD; break;
+      case 'l': literal_type = C0_LONG; break;
+      case 'q': literal_type = C0_QUAD; break;
+  }
+  if (opcode >= 0xF7 && opcode <= 0xF8) literal_type = C0_LONG;
 /*
   disassemble instruction operands
 */

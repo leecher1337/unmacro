@@ -6,7 +6,7 @@
 #define MAXSYM 512		/* maximum number of symbols in symbol table */
 #define SYMNAMALLO	32	/* number of bytes to allocate per symbol name*/
 
-char *sym_findname();
+char *sym_findname(int value);
 
 #ifdef symtab
 /*

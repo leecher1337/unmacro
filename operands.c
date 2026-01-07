@@ -83,7 +83,16 @@ char *line;
     if (reg < 15) {
       sprintf(line, "(%s)+", sreg);
     } else {
-      lastliteral = getlong();
+      if (literal_type == C0_BYTE) {
+        lastliteral = getbyte() & 0xff;
+        sprintf(line, "i^#^x%02X", lastliteral);
+      } else if (literal_type == C0_WORD) {
+        lastliteral = getword() & 0xffff;
+        sprintf(line, "i^#^x%04X", lastliteral);
+      } else {
+        lastliteral = getlong();
+        sprintf(line, "i^#^x%08X", lastliteral);
+      }
       sprintf(line, "i^#^x%08X", lastliteral);
     }
     break;

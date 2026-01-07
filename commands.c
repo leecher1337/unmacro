@@ -62,10 +62,10 @@ int command[8];
   fprintf(stderr, "arg3 = %s\n", arg3);
   fprintf(stderr, "arg4 = %s\n", arg4);
 #endif
-  for (cmd = 0; cmd < sizeof(unmacrocommands)/4; cmd++)
+  for (cmd = 0; cmd < sizeof(unmacrocommands)/sizeof(unmacrocommands[0]); cmd++)
     if (!strncmp(arg1, unmacrocommands[cmd], strlen(arg1)))
       break;
-  if (cmd < sizeof(unmacrocommands)/4) {
+  if (cmd < sizeof(unmacrocommands)/sizeof(unmacrocommands[0])) {
     command[0] = cmd;
     lastcommand = cmd;
     switch (cmd) {
@@ -75,22 +75,22 @@ int command[8];
      case C_DISASSEMBLE:
       if (!strlen(arg2))
 	return(0);
-      for (cmd2 = 0; cmd2 < sizeof(disassembl)/4; cmd2++)
+      for (cmd2 = 0; cmd2 < sizeof(disassembl)/sizeof(disassembl[0]); cmd2++)
 	if (!strncmp(arg2, disassembl[cmd2], strlen(arg2)))
 	  break;
       command[1] = cmd2;
-      if (cmd2 == sizeof(disassembl)/4) {
-        comderr("DISASSEMBLE", 1, disassembl, sizeof(disassembl)/4);
+      if (cmd2 == sizeof(disassembl)/sizeof(disassembl[0])) {
+        comderr("DISASSEMBLE", 1, disassembl, sizeof(disassembl)/sizeof(disassembl[0]));
 	command[0] = -1;
       } else  if (cmd2 == C0_UNTIL) {
-	for (cmd3 = 0; cmd3 < sizeof(disassembleuntil)/4; cmd3++)
+	for (cmd3 = 0; cmd3 < sizeof(disassembleuntil)/sizeof(disassembleuntil[0]); cmd3++)
 	  if (!strncmp(arg3, disassembleuntil[cmd3], strlen(arg3)))
 	    break;
 	  command[2] = cmd3;
-	  if (cmd3 == sizeof(disassembleuntil)/4) {
+	  if (cmd3 == sizeof(disassembleuntil)/sizeof(disassembleuntil[0])) {
 	    command[0] = -1;
 	    comderr("DISASSEMBLE UNTIL", 1, disassembleuntil,
-	     sizeof(disassembleuntil)/4);
+	     sizeof(disassembleuntil)/sizeof(disassembleuntil[0]));
 	  } else if (cmd3 == C0x22_PC) {
 	    if (!sscanf(arg4, "%x", &command[3])) {
 	      fprintf(stderr, "bad address for DISASSEMBLE UNTIL PC\n");
@@ -103,11 +103,11 @@ int command[8];
   SET - get sub-commands
 */
      case C_SET:		/* SET */
-      for (cmd2 = 0; cmd2 < sizeof(setshow)/4; cmd2++)
+      for (cmd2 = 0; cmd2 < sizeof(setshow)/sizeof(setshow[0]); cmd2++)
 	if (!strncmp(arg2, setshow[cmd2], strlen(arg2)))
 	  break;
-      if (cmd2 == sizeof(setshow)/4) {
-        comderr("SET", 1, setshow, sizeof(setshow)/4);
+      if (cmd2 == sizeof(setshow)/sizeof(setshow[0])) {
+        comderr("SET", 1, setshow, sizeof(setshow)/sizeof(setshow[0]));
 	command[0] = -1;
       } else {
 	command[1] = cmd2;
@@ -126,12 +126,12 @@ int command[8];
 	 case C1_LONG:
 	 case C1_QUAD:
 	 case C1_OCTA:
-	  for (cmd3 = 0; cmd3 < sizeof(setshowbyte)/4; cmd3++)
+	  for (cmd3 = 0; cmd3 < sizeof(setshowbyte)/sizeof(setshowbyte[0]); cmd3++)
 	    if (!strncmp(arg3, setshowbyte[cmd3], strlen(arg3)))
 	      break;
-	  if (cmd3 == sizeof(setshowbyte)/4) {
+	  if (cmd3 == sizeof(setshowbyte)/sizeof(setshowbyte[0])) {
 	    command[0] = -1;
-            comderr("SET BYTE/LONG...", 1, setshowbyte, sizeof(setshowbyte)/4);
+            comderr("SET BYTE/LONG...", 1, setshowbyte, sizeof(setshowbyte)/sizeof(setshowbyte[0]));
 	      break;
 	  } else {
 	    command[2] = cmd3;
@@ -141,12 +141,12 @@ int command[8];
   SET MODE subcommands
 */
 	 case C1_MODE:
-	  for (cmd3 = 0; cmd3 < sizeof(setmode)/4; cmd3++)
+	  for (cmd3 = 0; cmd3 < sizeof(setmode)/sizeof(setmode[0]); cmd3++)
 	    if (!strncmp(arg3, setmode[cmd3], strlen(arg3)))
 	      break;
-	  if (cmd3 == sizeof(setmode)/4) {
+	  if (cmd3 == sizeof(setmode)/sizeof(setmode[0])) {
 	    command[0] = -1;
-            comderr("SET MODE", 1, setmode, sizeof(setmode)/4);
+            comderr("SET MODE", 1, setmode, sizeof(setmode)/sizeof(setmode[0]));
 	    break;
 	  } else {
 	    command[2] = cmd3;
@@ -156,12 +156,12 @@ int command[8];
   SET CASE subcommands
 */
 	 case C1_CASE:
-	  for (cmd3 = 0; cmd3 < sizeof(setcase)/4; cmd3++)
+	  for (cmd3 = 0; cmd3 < sizeof(setcase)/sizeof(setcase[0]); cmd3++)
 	    if (!strncmp(arg3, setcase[cmd3], strlen(arg3)))
 	      break;
-	  if (cmd3 == sizeof(setcase)/4) {
+	  if (cmd3 == sizeof(setcase)/sizeof(setcase[0])) {
 	    command[0] = -1;
-            comderr("SET CASE", 1, setcase, sizeof(setcase)/4);
+            comderr("SET CASE", 1, setcase, sizeof(setcase)/sizeof(setcase[0]));
 	      break;
 	  } else {
 	    command[2] = cmd3;
@@ -174,12 +174,12 @@ int command[8];
   SHOW - get sub-commands
 */
      case C_SHOW:		/* SHOW */
-      for (cmd2 = 0; cmd2 < sizeof(setshow)/4; cmd2++)
+      for (cmd2 = 0; cmd2 < sizeof(setshow)/sizeof(setshow[0]); cmd2++)
 	if (!strncmp(arg2, setshow[cmd2], strlen(arg2)))
 	  break;
-      if (cmd2 == sizeof(setshow)/4) {
+      if (cmd2 == sizeof(setshow)/sizeof(setshow[0])) {
 	command[0] = -1;
-        comderr("SHOW", 1, setshow, sizeof(setshow)/4);
+        comderr("SHOW", 1, setshow, sizeof(setshow)/sizeof(setshow[0]));
       } else {
 	command[1] = cmd2;
 	switch(cmd2) {
@@ -233,12 +233,12 @@ int command[8];
   SYMBOL - symbol table names
 */
      case C_SYMBOL:		/* SYMBOL */
-      for (cmd2 = 0; cmd2 < sizeof(symbol)/4; cmd2++)
+      for (cmd2 = 0; cmd2 < sizeof(symbol)/sizeof(symbol[0]); cmd2++)
 	if (!strncmp(arg2, symbol[cmd2], strlen(arg2)))
 	  break;
-      if (cmd2 == sizeof(symbol)/4) {
+      if (cmd2 == sizeof(symbol)/sizeof(symbol[0])) {
 	command[0] = -1;
-        comderr("SYMBOL", 1, symbol, sizeof(symbol)/4);
+        comderr("SYMBOL", 1, symbol, sizeof(symbol)/sizeof(symbol[0]));
       } else {
 	command[1] = cmd2;
 	switch(cmd2) {
