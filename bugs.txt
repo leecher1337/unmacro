@@ -1,0 +1,102 @@
+Bugs, ideas, suggestions???  Send them to chojnacki@vaxmfg.tech.nwu.edu.
+I ask only one thing, that this program be as portable as possible.
+
+Things to be fixed:
+
+	o  automatic labeled .byte, .word, ... on addresses in image
+	   that instruction references
+
+	o  ASCIx directives should handle control chars, "/".
+
+	o  ASCID directive should check address
+
+	o  See "suggestions" below
+
+Non-portable things:
+
+	o  HELP command
+
+Fixes:
+
+16-FEB-1989 (all) #include's now have <xxxxx.h> rather than just xxxxx
+16-FEB-1989 (header.c) #include <stdlib.h>
+16-FEB-1989 (unmacro.c) automatic .ENTRY on transfer addresses in image
+17-FEB-1989 (disassemble.c) CASEx instructions fixed to go from 0 to limit
+            rather than 0 to limit-1
+21-FEB-1989 (unmacro.c) help file now referenced by UNMACRO_DIR
+21-FEB-1989 (unmacro.c) unmacro now accepts image file (optional .exe) on
+            command line
+21-FEB-1989 (unmacro.c, commands.h) EXIT command added
+21-FEB-1989 (unmacro.c, commands.c, commands.h, unmacro.hlp) HELP now accepts
+            arguments
+21-FEB-1989 (unmacro.c) SAVE/UNSAVE/WRITE can now take a file name as an
+            argument
+21-FEB-1989 (unmacro.c) long disassemblies (DIS ALL, etc) now can be
+            interrupted via control-c
+22-FEB-1989 (unmacro.c, header.c) image header default.  use "unmacro -h"
+            to specify no header
+22-FEB-1989 (symtab.h) added symbols up to and including SYS$LOOKUP_LICENCE
+23-FEB-1989 (header.h) set maximum isd's to 256 (just an array of pointers)
+23-FEB-1989 (header.c) changed %i's to %d's in two printf statements
+23-FEB-1989 (many, if not all) made everything uppercase
+24-FEB-1989 (commands.h) C1x2_UPPER had a double quote mark on it
+24-FEB-1989 (unmacro.c, header.c, header.h) Correctly handle demand-zero ISD's
+24-FEB-1989 (unmacro.c, header.c, header.h) Correctly calculate base address
+24-FEB-1989 (many, if not all) fix references to variable "top"
+ 8-MAR-1989 (commands.c) fix misc bug so HELP does not pass arguments from
+            previous command
+ 8-MAR-1989 (commands.c,.h, unmacro.c,.h) add PUSH, POP, SHOW STACK
+ 8-MAR-1989 (symtab.h) changed occurances of RMS$ to SYS$ in symbol table
+15-MAY-1989 (unmacro.c,.h header.c) fix -h option so it works
+25-MAY-1989 (commands.c,.h, unmacro.c) update DUMP so that after the first time
+            you enter DUMP, you can just press <return> and it will dump the
+            next 256 bytes.  fixed some minor bugs after porting it to Unix.
+26-MAY-1989 (disassemble.c) "case" instruction code now checks address before
+            labeling destination of jump
+26-MAY-1989 (operands.c, undata.c) no more messy ".Address ^X    nnn" or
+            "i^#^X    nnn"
+26-MAY-1989 (unmacro.c) control-C will now halt a "WRITE file" (once it starts
+            to disassemble code)
+26-MAY-1989 (unmacro.c) DUMP no longer goes beyond end of image
+
+Possible incompatabilities:
+
+	VMS 4.7/VAX C 2.3	SEEK_END should be replaced by SEEK_EOF
+
+
+Suggestions to think about:
+
+From Dave Shepperd 23-FEB-1989:
+
+>I'd like to suggest that a .PSECT directive be issued for each isd with the
+>appropriate flags set and an optional section name. Also setting
+>the location pointer to an area that can't be handled with meaning (such
+>as DZRO or shared global sections) be greeted with a warning or some such.
+>You could disassemble DZRO sections with .BLKB n directives.
+
+Good suggestion.  More for next week.
+
+>We're out of
+>luck with disassembly of global sections (which will make re-assembly a
+>real pain in the ass) unless you want to get REAL fancy and read the shareable
+>image file(s) and assign symbol names to the entry points in the global
+>section(s). (I bet you didn't intend in making the writing of this code into
+>a career.)
+
+I thought about finding what names went with which of the "standard" global
+sections, shareable images, libraries, etcetera (I.E the LIB$, MTH$, etc in
+LIBRTL and possibly the other language RTL's).  I think this would be better
+done via a "dynamic look-up", but then again, time consuming.  But the idea
+interests me enough to do some passive looking into it.  Any ideas?
+
+>The ENTRY mask decode should do some more checking. MACRO-32 won't let you
+>set bits 0 and 1 (for R0 and R1) without generating an error. UNMACRO should
+>so indicate with some kind of message that it is producing a non-standard
+>mask or non-acceptable mask. Also bits 15 and 14 of the entry mask are for
+>integer and numeric overflow exception enable/disable respectively; bits 13
+>and 12 must always be 0. They don't represent registers ap,fp,sp and pc.
+>Also I think that UNMACRO should try to disassemble the first word of
+>a section (as identified by an isd) as a .ENTRY, and failing that, then
+>disassemble it as data.
+
+More for next week.

@@ -1,0 +1,201 @@
+1 UNMACRO
+  Unmacro is a tool for picking apart those programs you compiled and
+assembled but forgot where you put the source code.
+
+    $ UNMACRO imagefile[.exe]
+
+2 Introduction
+  Not finished yet
+
+2 DISASSEMBLE
+  Disassembles an instruction or data value
+
+  Format:
+
+    DISASSEMBLE entity
+
+  where entity is either a mask-type, UNTIL, or ALL
+3 UNTIL
+  Disassmebles until the program counter (pc):
+
+    END  - reaches the end of the image
+    PC   - is greater than or equal to a value
+    DATA - reaches a non-instruction byte
+4 Examples
+  Disassemble starting at the current pc and going to the end of the image:
+
+    DISASSEMBLE UNTIL END
+
+  Disassemble starting at the current pc and going to a specified pc:
+
+    DISASSEMBLE UNTIL PC 120FF
+
+  Disassemble starting at the current pc and going until a byte is specified
+  as non-data:
+
+    DISASSEMBLE UNTIL DATA
+3 ALL
+  Disassemble starting at the base of the image and going until the end.
+
+3 Examples
+  Disassemble the next value as an ASCII value:
+
+    DISASSEMBLE ASCII
+2 DUMP
+  Display the next 256 byte in a dump format
+2 HEADER
+  Display the image header in a dump format
+2 GOTO
+  Set the pc to a new value
+
+    GOTO address
+2 QUIT
+  Exit the program
+2 SAVE-UNSAVE
+  Store and recall the image mask.  The image mask is a byte array the same
+  size as the image that specifies whether the byte it corresponds to is an
+  instruction or a data value of some sort.
+
+  Format:
+
+    SAVE mask-file
+    UNSAVE mask-file
+2 SEARCH
+  Search the image, starting at the current pc and going until the string is
+  found or until the end of the image is reached.
+2 SET-SHOW
+
+3 BYTE
+  Force the next byte to be interpreted as the mask-type given.
+
+  Format:
+
+    SET BYTE mask-type
+3 CASE
+  Not used
+4 LOWER
+
+4 UPPER
+
+3 MODE
+  Not used
+4 BINARY
+
+4 OCTAL
+
+4 DECIMAL
+
+4 HEXADECIMAL
+
+3 WORD
+  Force the next 2 bytes to be interpreted as the mask-type given.
+
+  Format:
+
+    SET WORD mask-type
+3 LONG
+  Force the next 4 bytes to be interpreted as the mask-type given.
+
+  Format:
+
+    SET LONG mask-type
+3 QUAD
+  Force the next 8 bytes to be interpreted as the mask-type given.
+
+  Format:
+
+    SET QUAD mask-type
+3 OCTA
+  Force the next 16 bytes to be interpreted as the mask-type given.
+
+  Format:
+
+    SET OCTA mask-type
+3 RANGE
+  Force the next n bytes to be interpreted as the mask-type given.
+
+  Format:
+
+    SET RANGE mask-type count
+
+  Where count is the number of bytes to force to be interpreted as the
+  mask-type specifies.  Note: count is a hexadecimal number.
+3 LABEL
+  When the byte is disassembled, there will be a label preceding it of
+  the form:
+
+   laddress:
+
+  For example: if the byte at pc 200 was labeled, then, when it is
+  disassembled, it would appear as follows:
+
+    l200:	.byte	x^025
+3 UNLABEL
+  Removes a label set by SET LABEL.
+2 STATS
+  Displays important information such as transfer addresses, image base,
+  etc.
+2 Mask-Types
+   These are the different types of masks that may be placed on top of
+ the image to force how it will be disassembled
+
+3 UNDEFINED
+  The byte will not be interpreted.
+3 INSTRUCTION
+  The byte will be interpreted as an instruction.
+3 BYTE
+  The byte will be interpreted as a .BYTE directive.
+3 WORD
+  The byte will be interpreted as a .WORD directive.
+3 LONG
+  The byte will be interpreted as a .LONG directive.
+3 QUAD
+  The byte will be interpreted as a .QUAD directive.
+3 OCTA
+  The byte will be interpreted as a .OCTA directive.
+3 F_FLOATING
+  The byte will be interpreted as a .F_FLOATING directive.
+3 D_FLOATING
+  The byte will be interpreted as a .D_FLOATING directive.
+3 G_FLOATING
+  The byte will be interpreted as a .G_FLOATING directive.
+3 H_FLOATING
+  The byte will be interpreted as a .H_FLOATING directive.
+3 ASCII
+  The byte will be interpreted as a .ASCII directive.
+3 ASCIC
+  The byte will be interpreted as a .ASCIC directive.
+3 ASCID
+  The byte will be interpreted as a .ASCID directive.
+3 ASCIZ
+  The byte will be interpreted as a .ASCIZ directive.
+3 BLKB
+  The byte will be interpreted as a .BLKB directive.
+3 BLKW
+  The byte will be interpreted as a .BLKW directive.
+3 BLKL
+  The byte will be interpreted as a .BLKL directive.
+3 BLKQ
+  The byte will be interpreted as a .BLKQ directive.
+3 BLKO
+  The byte will be interpreted as a .BLKO directive.
+3 ADDRESS
+  The byte will be interpreted as a .ADDRESS directive.
+3 MASK
+  The byte will be interpreted as a .MASK directive.
+3 ENTRY
+  The byte will be interpreted as a .ENTRY directive.
+2 WRITE
+  Disassembles the entire image and sends the output to a file.
+
+  Format:
+
+    WRITE listing-file
+2 SYMBOL
+  Lets you define symbols
+3 DEFINE
+  Define a symbol name.
+3 LIST
+  Lists all symbols in the symbol table.
+3 REMOVE
+  Removes a symbol from the symbol table.

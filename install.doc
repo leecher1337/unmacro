@@ -1,0 +1,10 @@
+Installation procedure:
+
+  1 - create a directory and put all the UNMACRO files in it
+  2 - Edit UNMACRO.C and change the line $DESCRIPTOR(help,"HELP/LIBRARY=..."
+      to point to the directory with all the unmacro stuff in it
+  3 - $ @MAKE_UNMACRO
+  4 - Define UNMACRO_DIR to point at unmacro source
+  5 - Define unmacro:  $ UNMACRO :==$UNMACRO_DIR:UNMACRO
+
+MAKE_UNMACRO.COM took under 3 minutes on a lightly loaded VAX 11/785.
