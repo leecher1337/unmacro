@@ -93,7 +93,6 @@ char *line;
         lastliteral = getlong();
         sprintf(line, "i^#^x%08X", lastliteral);
       }
-      sprintf(line, "i^#^x%08X", lastliteral);
     }
     break;
    case 9:				/* autoincrement deferred */
